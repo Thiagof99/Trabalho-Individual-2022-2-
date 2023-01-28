@@ -1,6 +1,6 @@
 version: '3.8'
 
-services: 
+services:
   mongo:
     image: mongo:latest
     ports:
@@ -12,6 +12,19 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: lappis
       MONGO_INITDB_ROOT_PASSWORD: lappis
+
+  pythonapp:
+    image: python:latest
+    container_name: pyapp
+    restart: always
+    build: .
+    command: python src/main.py
+    volumes:
+      - .:/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
 
 volumes:
   mongodb_data:
